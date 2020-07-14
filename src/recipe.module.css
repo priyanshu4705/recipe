@@ -1,0 +1,34 @@
+.recipe {
+  border-radius: 10px;
+  box-shadow: 0px 5px 20px rgb(71, 71, 71);
+  margin: 20px;
+  padding: 15px;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-around;
+  background: #fff;
+  align-items: center;
+  min-width: 40%;
+}
+
+.title {
+  display: inline-block;
+  padding: 15px 30px;
+  font-size: 20px;
+  font-weight: 600;
+
+  background-color:#EEE ;
+  border-radius: 8px;
+
+  border: none;
+  outline: none;
+  appearance: none;
+  cursor: pointer;
+  transition: 0.4s ease-out;
+}
+
+.title:hover {
+  color: rgb(255, 255, 255);
+  background-color: #4484C4;
+  border-radius: 8px;
+}
