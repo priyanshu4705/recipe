@@ -14,7 +14,7 @@ const Recipe = ({ title, calories, poster, ingredients, serving, link }) => {
       <h3>Items required:</h3>
       <dl>
         {ingredients.map((item) => (
-          <dt>{item.text}</dt>
+          <dt key={Math.floor(Math.random() * 1000001)}>{item.text}</dt>
         ))}
       </dl>
     </div>

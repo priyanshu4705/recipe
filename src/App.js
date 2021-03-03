@@ -1,6 +1,6 @@
-import React, { useState, useEffect } from "react";
-import Recipe from "./Recipe";
+import React, { useState, lazy, Suspense } from "react";
 import axios from "axios";
+const Recipe = lazy(() => import("./Recipe"));
 
 function App() {
   const API_ID = "794efe47";
@@ -8,27 +8,18 @@ function App() {
 
   const [recipes, setRecipes] = useState([]);
   const [search, setSearch] = useState("");
-  const [query, setQuery] = useState("");
-
-  useEffect(() => {
-    getRecipes();
-  }, [query]);
 
   const getRecipes = async () => {
     const response = await axios(
-      `https://api.edamam.com/search?q=${query}&app_id=${API_ID}&app_key=${API_KEY}`
+      `https://api.edamam.com/search?q=${search}&app_id=${API_ID}&app_key=${API_KEY}`
     );
     const data = await response.data;
     setRecipes(data.hits);
   };
 
-  const updateSearch = (event) => {
-    setSearch(event.target.value);
-  };
-
   const getSearch = (event) => {
     event.preventDefault();
-    setQuery(search);
+    getRecipes();
     setSearch("");
   };
 
@@ -42,7 +33,7 @@ function App() {
             type="text"
             placeholder="Search for a recipe..."
             value={search}
-            onChange={updateSearch}
+            onChange={event => setSearch(event.target.value)}
           />
           <button className="btn" type="submit">
             search
@@ -52,16 +43,18 @@ function App() {
 
       <div className="recipes">
         {recipes.map((recipe) => (
-          <Recipe
-            key={recipe.recipe.image}
-            title={recipe.recipe.label}
-            calories={recipe.recipe.calories}
-            poster={recipe.recipe.image}
-            ingredients={recipe.recipe.ingredients}
-            time={recipe.recipe.totalTime}
-            serving={recipe.recipe.yield}
-            link={recipe.recipe.url}
-          />
+          <Suspense fallback={<div>Loading...</div>}>
+            <Recipe
+              key={recipe.recipe.image}
+              title={recipe.recipe.label}
+              calories={recipe.recipe.calories}
+              poster={recipe.recipe.image}
+              ingredients={recipe.recipe.ingredients}
+              time={recipe.recipe.totalTime}
+              serving={recipe.recipe.yield}
+              link={recipe.recipe.url}
+            />
+          </Suspense>
         ))}
       </div>
     </div>
